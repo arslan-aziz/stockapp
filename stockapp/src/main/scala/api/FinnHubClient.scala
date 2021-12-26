@@ -24,7 +24,7 @@ class FinnHubClient(api_key: String) extends StockClient(api_key) {
     }
 
     def getStockPriceInfo(symbol: String): StockPriceInfo = {
-        val endpointURL = uri"https://finnhub.io/api/v1/quote?q=$symbol&token=$api_key"
+        val endpointURL = uri"https://finnhub.io/api/v1/quote?symbol=$symbol&token=$api_key"
         val backend = HttpURLConnectionBackend()
         val response = basicRequest
             .get(endpointURL)
@@ -32,14 +32,14 @@ class FinnHubClient(api_key: String) extends StockClient(api_key) {
         response.body match {
             case Left(error) => throw new RuntimeException(error)
             case Right(body) => {
-                val bodyParsed = usjon.read(body)
+                val bodyParsed = ujson.read(body)
                 StockPriceInfo(
                     symbol,
-                    bodyParsed("c"),
-                    bodyParsed("h"),
-                    bodyParsed("l"),
-                    bodyParsed("o"),
-                    bodyParsed("pc"),
+                    bodyParsed("c").num,
+                    bodyParsed("h").num,
+                    bodyParsed("l").num,
+                    bodyParsed("o").num,
+                    bodyParsed("pc").num,
                 )
             }
         }

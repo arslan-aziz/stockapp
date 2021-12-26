@@ -7,8 +7,8 @@ object Main {
 
     def loop(stockClient: StockClient) {
         println("Enter a stock symbol:")
-        val stockSymbolInput = readLine()
-        val stockSymbolCandidates: Seq[String] = stockClient.getSymbolFuzzy(stockSymbolInput)
+        val stockSymbolInput: String = readLine()
+        val stockSymbolCandidates: Seq[String] = stockClient.getSymbolFuzzy(stockSymbolInput.toUpperCase)
 
         if (stockSymbolCandidates.isEmpty) {
             println("No stocks found.")
@@ -19,7 +19,7 @@ object Main {
             exactMatch match {
                 case Some(x) => {
                     println(s"Retrieving info for stock $stockSymbolInput")
-                    stockClient.getStockPriceInfo(exactMatch).show
+                    stockClient.getStockPriceInfo(x).show
                 }
                 case None => {
                     println(s"No exact match for stock $stockSymbolInput. Try one of these:")

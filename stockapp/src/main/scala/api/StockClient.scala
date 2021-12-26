@@ -2,11 +2,11 @@ package api
 
 case class StockPriceInfo(
     symbol: String,
-    current_price: Float,
-    day_high_price: Float,
-    day_low_price: Float,
-    day_open_price: Float,
-    prev_close_price: Float
+    current_price: Double,
+    day_high_price: Double,
+    day_low_price: Double,
+    day_open_price: Double,
+    prev_close_price: Double
 ) {
     def show: Unit = {
         println(s"Current Price: $current_price")
